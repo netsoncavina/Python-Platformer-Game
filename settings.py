@@ -1,3 +1,4 @@
+# 'X' == tile, 'P' = player
 level_map = [
 '                            ',
 '                            ',
