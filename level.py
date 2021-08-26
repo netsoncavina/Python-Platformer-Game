@@ -1,5 +1,5 @@
 import pygame
-from tiles import Tile, StaticTile, Crate
+from tiles import AnimatedTile, Tile, StaticTile, Crate, Coin
 from settings import tile_size, screen_width
 from player import Player
 from particles import ParticleEffect
@@ -10,7 +10,7 @@ class Level:
         # Level setup
         self.display_surface = surface
         self.setup_level(level_data)
-        self.world_shift = -3
+        self.world_shift = -2
         self.current_x = 0
 
         # Terrain setup
@@ -24,6 +24,10 @@ class Level:
         # Crates setup
         crate_layout = import_csv_layout(level_data['crates'])
         self.crate_sprites = self.create_tile_group(crate_layout,'crates')
+
+        # Coins
+        coin_layout = import_csv_layout(level_data['coins'])
+        self.coin_sprites = self.create_tile_group(coin_layout,'coins')
 
         # Dust
         self.dust_sprite = pygame.sprite.GroupSingle()
@@ -48,6 +52,11 @@ class Level:
                         sprite = StaticTile(tile_size,x,y,tile_surface)
                     if type == 'crates':
                         sprite = Crate(tile_size,x,y)
+                    if type == 'coins':
+                        if val == '0':
+                            sprite = Coin(tile_size,x,y,'graphics\coins\gold')
+                        else:
+                            sprite = Coin(tile_size,x,y,'graphics\coins\silver') 
                     sprite_group.add(sprite)
 
 
@@ -168,6 +177,10 @@ class Level:
         # Crate tiles
         self.crate_sprites.update(self.world_shift)
         self.crate_sprites.draw(self.display_surface) 
+
+        # Coins
+        self.coin_sprites.update(self.world_shift)
+        self.coin_sprites.draw(self.display_surface)
 
 
         # self.tiles.draw(self.display_surface)
