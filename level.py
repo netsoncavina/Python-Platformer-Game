@@ -5,7 +5,7 @@ from settings import tile_size, screen_width, screen_height
 from player import Player
 from particles import ParticleEffect
 from support import import_csv_layout, import_cut_graphics
-from decoration import Sky, Water
+from decoration import Sky, Water, Cloud
 
 class Level:
     def __init__(self,level_data,surface):
@@ -50,7 +50,8 @@ class Level:
         # Decoration
         self.sky = Sky(8)
         level_width = len(terrain_layout[0])*tile_size
-        self.water = Water(screen_height - 40, level_width)
+        self.water = Water(screen_height - 40, level_width+500)
+        self.clouds = Cloud(400, level_width, 15)
 
 
         # Dust
@@ -207,8 +208,10 @@ class Level:
        
         
 
-        # Sky
+        # Sky and clouds
         self.sky.draw(self.display_surface)
+        self.clouds.draw(self.display_surface,self.world_shift)
+
         
         #   Level tiles
         # Bg Palms
