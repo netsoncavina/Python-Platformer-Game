@@ -1,5 +1,6 @@
 import pygame
-from tiles import AnimatedTile, Tile, StaticTile, Crate, Coin, Palm
+from tiles import Tile, StaticTile, Crate, Coin, Palm
+from enemy import Enemy
 from settings import tile_size, screen_width
 from player import Player
 from particles import ParticleEffect
@@ -10,7 +11,7 @@ class Level:
         # Level setup
         self.display_surface = surface
         self.setup_level(level_data)
-        self.world_shift = -2
+        self.world_shift = -4
         self.current_x = 0
 
         # Terrain setup
@@ -36,6 +37,14 @@ class Level:
         # Background palms
         bg_palm_layout = import_csv_layout(level_data['bg palms'])
         self.bg_palm_sprites = self.create_tile_group(bg_palm_layout,'bg palms')
+
+        # Enemy
+        enemy_layout = import_csv_layout(level_data['enemies'])
+        self.enemy_sprites = self.create_tile_group(enemy_layout,'enemies')
+
+        # Constraint
+        constraint_layout = import_csv_layout(level_data['constraints'])
+        self.constraint_sprites = self.create_tile_group(constraint_layout,'constraints')
 
         # Dust
         self.dust_sprite = pygame.sprite.GroupSingle()
@@ -72,6 +81,10 @@ class Level:
                             sprite = Palm(tile_size,x,y,'graphics/terrain/palm_large',64)
                     if type == 'bg palms':
                         sprite = Palm(tile_size,x,y,'graphics/terrain/palm_bg',64)
+                    if type == 'enemies':
+                        sprite = Enemy(tile_size,x,y)
+                    if type == 'constraints':
+                        sprite = Tile(tile_size,x,y)
                     sprite_group.add(sprite)
 
 
@@ -175,6 +188,11 @@ class Level:
     #     if player.on_ceiling and player.direction.y > 0:
     #         player.on_ceiling = False
 
+    def enemy_collision_reverse(self):
+        for enemy in self.enemy_sprites.sprites():
+            if pygame.sprite.spritecollide(enemy,self.constraint_sprites,False):
+                enemy.reverse_speed()
+
     def run(self):
        # Dust Particles
         # self.dust_sprite.update(self.world_shift)
@@ -189,6 +207,12 @@ class Level:
         # Terrain tiles
         self.terrain_sprites.update(self.world_shift)
         self.terrain_sprites.draw(self.display_surface) 
+
+        # Enemies
+        self.enemy_sprites.update(self.world_shift)
+        self.constraint_sprites.update(self.world_shift)
+        self.enemy_collision_reverse()
+        self.enemy_sprites.draw(self.display_surface)
         
         # Crate tiles
         self.crate_sprites.update(self.world_shift)
@@ -205,6 +229,7 @@ class Level:
         # Fg Palms
         self.fg_palm_sprites.update(self.world_shift)
         self.fg_palm_sprites.draw(self.display_surface)
+
 
       
 
