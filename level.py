@@ -138,24 +138,6 @@ class Level:
             fall_dust_particle = ParticleEffect(self.player.sprite.rect.midbottom - offset, 'land')
             self.dust_sprite.add(fall_dust_particle)
 
-
-    # # Talvez apagavel
-    # def setup_level(self,layout):
-    #     self.tiles = pygame.sprite.Group()
-    #     self.player = pygame.sprite.GroupSingle()
-    #     # Encontrando onde o "X" está
-    #     for row_index,row in enumerate(layout):
-    #         for col_index,cell in enumerate(row):
-    #             x = col_index * tile_size
-    #             y = row_index * tile_size
-                
-    #             if cell=='X':
-    #                 tile = Tile((x,y),tile_size)
-    #                 self.tiles.add(tile)
-    #             if cell == 'P':
-    #                 player_sprite = Player((x,y), self.display_surface,self.create_jump_particles)
-    #                 self.player.add(player_sprite)
-
     def scroll_x(self):
         player = self.player.sprite
         player_x = player.rect.centerx
