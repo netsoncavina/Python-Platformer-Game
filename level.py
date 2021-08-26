@@ -1,5 +1,5 @@
 import pygame
-from tiles import AnimatedTile, Tile, StaticTile, Crate, Coin
+from tiles import AnimatedTile, Tile, StaticTile, Crate, Coin, Palm
 from settings import tile_size, screen_width
 from player import Player
 from particles import ParticleEffect
@@ -29,6 +29,14 @@ class Level:
         coin_layout = import_csv_layout(level_data['coins'])
         self.coin_sprites = self.create_tile_group(coin_layout,'coins')
 
+        # Foreground palms
+        fg_palm_layout = import_csv_layout(level_data['fg palms'])
+        self.fg_palm_sprites = self.create_tile_group(fg_palm_layout,'fg palms')
+
+        # Background palms
+        bg_palm_layout = import_csv_layout(level_data['bg palms'])
+        self.bg_palm_sprites = self.create_tile_group(bg_palm_layout,'bg palms')
+
         # Dust
         self.dust_sprite = pygame.sprite.GroupSingle()
         self.player_on_ground = False
@@ -57,6 +65,13 @@ class Level:
                             sprite = Coin(tile_size,x,y,'graphics\coins\gold')
                         else:
                             sprite = Coin(tile_size,x,y,'graphics\coins\silver') 
+                    if type == 'fg palms':
+                        if val == '0':
+                            sprite = Palm(tile_size,x,y,'graphics/terrain/palm_small',38)
+                        else:
+                            sprite = Palm(tile_size,x,y,'graphics/terrain/palm_large',64)
+                    if type == 'bg palms':
+                        sprite = Palm(tile_size,x,y,'graphics/terrain/palm_bg',64)
                     sprite_group.add(sprite)
 
 
@@ -166,22 +181,32 @@ class Level:
         # self.dust_sprite.draw(self.display_surface)
        
         # Level tiles
+
+        # Bg Palms
+        self.bg_palm_sprites.update(self.world_shift)
+        self.bg_palm_sprites.draw(self.display_surface)
+
         # Terrain tiles
         self.terrain_sprites.update(self.world_shift)
         self.terrain_sprites.draw(self.display_surface) 
-        
-        # Grass tiles
-        self.grass_sprites.update(self.world_shift)
-        self.grass_sprites.draw(self.display_surface) 
         
         # Crate tiles
         self.crate_sprites.update(self.world_shift)
         self.crate_sprites.draw(self.display_surface) 
 
+        # Grass tiles
+        self.grass_sprites.update(self.world_shift)
+        self.grass_sprites.draw(self.display_surface) 
+
         # Coins
         self.coin_sprites.update(self.world_shift)
         self.coin_sprites.draw(self.display_surface)
 
+        # Fg Palms
+        self.fg_palm_sprites.update(self.world_shift)
+        self.fg_palm_sprites.draw(self.display_surface)
+
+      
 
         # self.tiles.draw(self.display_surface)
         # self.scroll_x()
