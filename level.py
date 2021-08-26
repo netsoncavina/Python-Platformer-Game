@@ -1,11 +1,11 @@
 import pygame
 from tiles import Tile, StaticTile, Crate, Coin, Palm
 from enemy import Enemy
-from settings import tile_size, screen_width
+from settings import tile_size, screen_width, screen_height
 from player import Player
 from particles import ParticleEffect
 from support import import_csv_layout, import_cut_graphics
-from decoration import Sky
+from decoration import Sky, Water
 
 class Level:
     def __init__(self,level_data,surface):
@@ -49,6 +49,8 @@ class Level:
 
         # Decoration
         self.sky = Sky(8)
+        level_width = len(terrain_layout[0])*tile_size
+        self.water = Water(screen_height - 40, level_width)
 
 
         # Dust
@@ -238,6 +240,9 @@ class Level:
         # Fg Palms
         self.fg_palm_sprites.update(self.world_shift)
         self.fg_palm_sprites.draw(self.display_surface)
+
+        # Water
+        self.water.draw(self.display_surface,self.world_shift)
 
         
 
