@@ -5,6 +5,7 @@ from settings import tile_size, screen_width
 from player import Player
 from particles import ParticleEffect
 from support import import_csv_layout, import_cut_graphics
+from decoration import Sky
 
 class Level:
     def __init__(self,level_data,surface):
@@ -45,6 +46,10 @@ class Level:
         # Constraint
         constraint_layout = import_csv_layout(level_data['constraints'])
         self.constraint_sprites = self.create_tile_group(constraint_layout,'constraints')
+
+        # Decoration
+        self.sky = Sky(8)
+
 
         # Dust
         self.dust_sprite = pygame.sprite.GroupSingle()
@@ -198,8 +203,12 @@ class Level:
         # self.dust_sprite.update(self.world_shift)
         # self.dust_sprite.draw(self.display_surface)
        
-        # Level tiles
+        
 
+        # Sky
+        self.sky.draw(self.display_surface)
+        
+        #   Level tiles
         # Bg Palms
         self.bg_palm_sprites.update(self.world_shift)
         self.bg_palm_sprites.draw(self.display_surface)
@@ -229,6 +238,8 @@ class Level:
         # Fg Palms
         self.fg_palm_sprites.update(self.world_shift)
         self.fg_palm_sprites.draw(self.display_surface)
+
+        
 
 
       
