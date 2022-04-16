@@ -208,6 +208,14 @@ class Level:
             if pygame.sprite.spritecollide(enemy,self.constraint_sprites,False):
                 enemy.reverse_speed()
 
+    def check_death(self):
+        if self.player.sprite.rect.top > screen_height:
+           self.create_overworld(self.current_level, 0)
+
+    def check_win(self):
+        if pygame.sprite.spritecollide(self.player.sprite,self.goal,False):
+            self.create_overworld(self.current_level, self.new_max_level) 
+
     def run(self):
         # Sky and clouds
         self.sky.draw(self.display_surface)
@@ -257,6 +265,8 @@ class Level:
 
         # self.tiles.draw(self.display_surface)
         self.scroll_x()
+        self.check_death()
+        self.check_win()
 
         # Player
         self.player.update()
