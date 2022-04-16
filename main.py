@@ -39,7 +39,7 @@ while True:
             pygame.quit()
             sys.exit
     
-    screen.fill('black')
+    screen.fill('grey')
     game.run()
     pygame.display.update()
     clock.tick(60)
