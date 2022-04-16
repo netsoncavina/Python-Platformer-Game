@@ -10,7 +10,7 @@ level_0 = {
     'grass': 'levels/0/level_0_Grama.csv',
     'node_pos': (110,400),
 	'unlock': 1,
-	'node_graphics': '../graphics/overworld/0',
+	'node_graphics': './graphics/overworld/1',
 }
 
 level_1 = {
@@ -25,7 +25,7 @@ level_1 = {
     'grass': 'levels/1/level_1_grass.csv',
     'node_pos': (300,220),
 	'unlock': 2,
-	'node_graphics': '../graphics/overworld/1',
+	'node_graphics': './graphics/overworld/2',
 }
 
 level_2 = {
@@ -40,7 +40,7 @@ level_2 = {
     'grass': 'levels/2/level_2_grass.csv',
     'node_pos': (400,610),
 	'unlock': 3,
-	'node_graphics': '../graphics/overworld/2',
+	'node_graphics': './graphics/overworld/3',
 }
 
 level_3  = {
@@ -55,7 +55,7 @@ level_3  = {
     'grass': 'levels/0/level_0_Grama.csv',
     'node_pos': (610,350),
 	'unlock': 4,
-	'node_graphics': '../graphics/overworld/0',
+	'node_graphics': './graphics/overworld/4',
 }
 
 level_4 = {
@@ -70,7 +70,7 @@ level_4 = {
     'grass': 'levels/0/level_0_Grama.csv',
     'node_pos': (880,210),
 	'unlock': 5,
-	'node_graphics': '../graphics/overworld/0',
+	'node_graphics': './graphics/overworld/5',
 }
 
 level_5 = {
@@ -85,7 +85,7 @@ level_5 = {
     'grass': 'levels/0/level_0_Grama.csv',
     'node_pos': (1050,400),
 	'unlock': 5,
-	'node_graphics': '../graphics/overworld/0',
+	'node_graphics': './graphics/overworld/6',
 }
 
 levels = {
