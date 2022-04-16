@@ -1,14 +1,19 @@
 import pygame, sys
 from settings import *
 from level import Level
-from game_data import level_0
 from overworld import Overworld
-
+from ui import UI
 class Game:
     def __init__(self):
         self.max_level = 0
+        self.max_health = 100
+        self.cur_health = 100
+        self.coins = 0
+
         self.overworld = Overworld(0, self.max_level, screen, self.create_level)
         self.status = 'overworld'
+
+        self.ui = UI(screen)
 
     def create_level(self, current_level):
         self.level = Level(current_level, screen, self.create_overworld)
@@ -25,6 +30,8 @@ class Game:
             self.overworld.run()
         else:
             self.level.run()
+            self.ui.show_health(50,100)
+            self.ui.show_coins(self.coins)
 
 
 # Setup 
