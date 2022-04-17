@@ -1,5 +1,6 @@
 import pygame
 from support import import_folder
+from math import sin
 
 class Player(pygame.sprite.Sprite):
     def __init__(self,pos, surface, create_jump_particles, change_health):
@@ -60,7 +61,13 @@ class Player(pygame.sprite.Sprite):
             flipped_image = pygame.transform.flip(image,True,False)
             self.image = flipped_image
 
-        # Corrigindo o retângulo
+        if self.invincible:
+            alpha = self.wave_value()
+            self.image.set_alpha(alpha)
+        else:
+            self.image.set_alpha(255)
+
+        # Fix rect
         if self.on_ground and self.on_right:
             self.rect = self.image.get_rect(bottomright = self.rect.bottomright)
         elif self.on_ground and self.on_left:
@@ -138,9 +145,15 @@ class Player(pygame.sprite.Sprite):
             if pygame.time.get_ticks() - self.hurt_time >= self.invincibility_duration:
                 self.invincible = False
 
+    def wave_value(self):
+        value = sin(pygame.time.get_ticks())
+        if value >= 0: return 255
+        else: return 0
+
     def update(self):
         self.get_input()
         self.get_status()
         self.animate()
         self.run_dust_animation()
         self.invincibility_timer()
+        self.wave_value()
