@@ -1,4 +1,5 @@
 import pygame
+from urllib3 import ProxyManager
 from tiles import Tile, StaticTile, Crate, Coin, Palm
 from enemy import Enemy
 from settings import tile_size, screen_width, screen_height
@@ -73,6 +74,10 @@ class Level:
         self.dust_sprite = pygame.sprite.GroupSingle()
         self.player_on_ground = False
     
+        # Explosions
+        self.explosion_sprites = pygame.sprite.Group()
+
+
     def create_tile_group(self, layout, type):
         sprite_group = pygame.sprite.Group()
 
@@ -225,6 +230,22 @@ class Level:
             for coin in collided_coins:
                 self.change_coins(coin.value)
 
+    def check_enemy_collisions(self):
+        enemy_collisions = pygame.sprite.spritecollide(self.player.sprite,self.enemy_sprites,False)
+        if enemy_collisions:
+            for enemy in enemy_collisions:
+                enemy_center = enemy.rect.centery
+                enemy_top = enemy.rect.top
+                player_bottom = self.player.sprite.rect.bottom
+                if enemy_top < player_bottom < enemy_center and self.player.sprite.direction.y >= 0:
+                    self.player.sprite.direction.y = -15
+                    explosion_sprite = ParticleEffect(enemy.rect.center, 'explosion')
+                    self.explosion_sprites.add(explosion_sprite)
+                    enemy.kill()
+
+
+
+
     def run(self):
         # Sky and clouds
         self.sky.draw(self.display_surface)
@@ -244,6 +265,8 @@ class Level:
         self.constraint_sprites.update(self.world_shift)
         self.enemy_collision_reverse()
         self.enemy_sprites.draw(self.display_surface)
+        self.explosion_sprites.update(self.world_shift)
+        self.explosion_sprites.draw(self.display_surface)
         
         # Crate tiles
         self.crate_sprites.update(self.world_shift)
@@ -278,6 +301,7 @@ class Level:
         self.check_win()
 
         self.check_coin_collisions()
+        self.check_enemy_collisions()
 
         # Player
         self.player.update()
