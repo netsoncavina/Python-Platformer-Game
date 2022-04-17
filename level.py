@@ -77,7 +77,6 @@ class Level:
         # Explosions
         self.explosion_sprites = pygame.sprite.Group()
 
-
     def create_tile_group(self, layout, type):
         sprite_group = pygame.sprite.Group()
 
@@ -170,25 +169,18 @@ class Level:
 
     def horizontal_movement_collision(self):
         player = self.player.sprite
-        player.rect.x += player.direction.x * player.speed
+        player.collision_rect.x += player.direction.x * player.speed
         collidable_sprites = self.terrain_sprites.sprites() + self.crate_sprites.sprites() + self.fg_palm_sprites.sprites()
 
-        # Testes de colisão horizontal
+        # Horizontal collision tests
         for sprite in collidable_sprites:
             if sprite.rect.colliderect(player.rect):
                 if player.direction.x < 0:
-                    player.rect.left = sprite.rect.right
+                    player.collision_rect.left = sprite.rect.right
                     player.on_left = True
-                    self.current_x = player.rect.left
                 elif player.direction.x > 0:
-                    player.rect.right = sprite.rect.left
+                    player.collision_rect.right = sprite.rect.left
                     player.on_right = True
-                    self.current_x = player.rect.right
-
-        if player.on_left and (player.rect.left < self.current_x or player.direction.x >= 0):
-            player.on_left = False
-        if player.on_right and (player.rect.right > self.current_x or player.direction.x <= 0):
-            player.on_right = False
     
     def vertical_movement_collision(self):
         player = self.player.sprite
@@ -196,20 +188,18 @@ class Level:
         collidable_sprites = self.terrain_sprites.sprites() + self.crate_sprites.sprites() + self.fg_palm_sprites.sprites()
 
         for sprite in collidable_sprites:
-            if sprite.rect.colliderect(player.rect):
+            if sprite.rect.colliderect(player.collision_rect):
                 if player.direction.y > 0:
-                    player.rect.bottom = sprite.rect.top
-                    player.direction.y = 0 # Reseta a gravidade
+                    player.collision_rect.bottom = sprite.rect.top
+                    player.direction.y = 0 # Gravity reset
                     player.on_ground = True
                 elif player.direction.y < 0:
-                    player.rect.top = sprite.rect.bottom
-                    player.direction.y = 0 # Evita que "grude" no teto
+                    player.collision_rect.top = sprite.rect.bottom
+                    player.direction.y = 0 # Fix ceiling collision
                     player.on_ceiling = True
         
         if player.on_ground and player.direction.y < 0 or player.direction.y > 1:
             player.on_ground = False
-        if player.on_ceiling and player.direction.y > 0:
-            player.on_ceiling = False
 
     def enemy_collision_reverse(self):
         for enemy in self.enemy_sprites.sprites():
@@ -245,9 +235,6 @@ class Level:
                 else:
                     self.player.sprite.get_damage()
 
-
-
-
     def run(self):
         # Sky and clouds
         self.sky.draw(self.display_surface)
@@ -257,6 +244,10 @@ class Level:
         # Bg Palms
         self.bg_palm_sprites.update(self.world_shift)
         self.bg_palm_sprites.draw(self.display_surface)
+
+        # Dust Particles
+        self.dust_sprite.update(self.world_shift)
+        self.dust_sprite.draw(self.display_surface)
 
         # Terrain tiles
         self.terrain_sprites.update(self.world_shift)
@@ -293,9 +284,7 @@ class Level:
         self.goal.update(self.world_shift)
         self.goal.draw(self.display_surface)
         
-        # Dust Particles
-        self.dust_sprite.update(self.world_shift)
-        self.dust_sprite.draw(self.display_surface)
+        
 
         # self.tiles.draw(self.display_surface)
         self.scroll_x()
