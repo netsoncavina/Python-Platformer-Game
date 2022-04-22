@@ -5,9 +5,7 @@ Jogo estilo 16-bits desenvolvido utilizando Pygame e Python
 Este jogo foi desenvolvido como forma de estudar programação, Python e Pygame, seguindo os tutoriais do canal CleanCode do Youtube.
 
 # Imagens
-<img src="https://user-images.githubusercontent.com/1374081/132400333-0aa4893c-098b-4ac9-bdb2-a825a270e72b.png" width="90%"></img> 
-<img src="https://user-images.githubusercontent.com/1374081/132400622-458f7d21-a7ab-41e3-bfca-fa1112bd94b3.png" width="90%"></img> 
-<img src="https://user-images.githubusercontent.com/1374081/132400668-3f0bedc2-3f98-4ca3-ab79-dcba69aa7b5c.png" width="90%"></img> 
+<img src="https://user-images.githubusercontent.com/1374081/164815518-0ad763d9-032d-4031-8584-22f4a342ac1c.png" width="45%"></img> <img src="https://user-images.githubusercontent.com/1374081/164815550-ee365c30-4289-4cf6-ad6f-54fc530f3497.png" width="45%"></img> <img src="https://user-images.githubusercontent.com/1374081/164815726-f3f16006-9dda-42a7-b147-81962a48c86e.png" width="45%"></img> <img src="https://user-images.githubusercontent.com/1374081/164815896-dc249341-2bd8-4c6b-9595-ecf313d271f5.png" width="45%"></img> 
 
 # Instalação
 Por enquanto é necessário ter Python (2 ou 3) e Pygame instalados para que o jogo possa funcionar
@@ -20,9 +18,10 @@ Para inicializar o jogo, execute o arquivo "main.py"
 * ⬆️ ou barra de espaço para pular
 
 # Features a serem adicionadas
-- [ ] Adicionar musica de fundo;
-- [ ] Adicionar colisão entre player e moedas / inimigos;
-- [ ] Adicionar barra de vida para o player;
+- [x] Adicionar musica de fundo;
+- [x] Adicionar colisão entre player e moedas / inimigos;
+- [x] Adicionar barra de vida para o player;
+- [x] Adicionar game over
 - [ ] Adicionar menu inicial do jogo;
-- [ ] Adicionar game over
+- [ ] Melhorias no sistema de colisões;
 - [ ] Adicionar o arquivo executavel para windows
